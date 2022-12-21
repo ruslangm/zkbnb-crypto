@@ -385,10 +385,6 @@ func VerifyTransaction(
 		NftAfter.NftContentHash,
 		NftAfter.CreatorTreasuryRate,
 		NftAfter.CollectionId)
-	log.Printf("NftBefore: CreatorAccountIndex=%v, OwnerAccountIndex=%v, NftContentHash=%v, CreatorTreasuryRate=%v, CollectionId=%v\n",
-		tx.NftBefore.CreatorAccountIndex, tx.NftBefore.OwnerAccountIndex, tx.NftBefore.NftContentHash, tx.NftBefore.CreatorTreasuryRate, tx.NftBefore.CollectionId)
-	log.Printf("NftAfter: CreatorAccountIndex=%v, OwnerAccountIndex=%v, NftContentHash=%v, CreatorTreasuryRate=%v, CollectionId=%v\n",
-		NftAfter.CreatorAccountIndex, NftAfter.OwnerAccountIndex, NftAfter.NftContentHash, NftAfter.CreatorTreasuryRate, NftAfter.CollectionId)
 	// update merkle proof
 	newNftRoot = types.UpdateMerkleProof(api, nftNodeHash, tx.MerkleProofsNftBefore[:], nftIndexMerkleHelper)
 	oldRoots[1] = api.Select(isEmptyTx, oldRoots[1], newNftRoot)

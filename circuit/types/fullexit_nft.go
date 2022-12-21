@@ -17,6 +17,8 @@
 
 package types
 
+import "log"
+
 type FullExitNftTx struct {
 	AccountIndex           int64
 	AccountNameHash        []byte
@@ -82,6 +84,18 @@ func VerifyFullExitNftTx(
 	IsVariableEqual(api, flag, tx.NftIndex, nftBefore.NftIndex)
 	IsVariableEqual(api, flag, tx.CreatorAccountIndex, accountsBefore[creatorAccount].AccountIndex)
 	IsVariableEqual(api, flag, tx.CreatorAccountNameHash, accountsBefore[creatorAccount].AccountNameHash)
+	log.Printf("NftTreeBefore: CreatorAccountIndex=%v, OwnerAccountIndex=%v, NftContentHash=%v, CreatorTreasuryRate=%v, CollectionId=%v\n",
+		accountsBefore[creatorAccount].AccountIndex,
+		nftBefore.OwnerAccountIndex,
+		nftBefore.NftContentHash,
+		nftBefore.CreatorTreasuryRate,
+		nftBefore.CollectionId)
+	log.Printf("TxBefore: CreatorAccountIndex=%v, OwnerAccountIndex=%v, NftContentHash=%v, CreatorTreasuryRate=%v, CollectionId=%v\n",
+		tx.CreatorAccountIndex,
+		tx.AccountIndex,
+		tx.NftContentHash,
+		tx.CreatorTreasuryRate,
+		tx.CollectionId)
 	isOwner := api.And(api.IsZero(api.Sub(tx.AccountIndex, nftBefore.OwnerAccountIndex)), flag)
 	IsVariableEqual(api, isOwner, tx.NftContentHash, nftBefore.NftContentHash)
 	IsVariableEqual(api, isOwner, tx.CreatorAccountIndex, nftBefore.CreatorAccountIndex)
