@@ -27,15 +27,12 @@ func TestCollectPubDataFromMintNftFieldOverflow(t *testing.T) {
 	var circuit, witness MintNftCircuit
 	circuit.TxInfo = MintNftTxConstraints{}
 
-	nftContentHash := "af6b80f7c6b8d2e5ce1cfa3a58c7c8530a7f75bc4f73569a8dcffbde3efc0753"
-
 	witness.TxInfo = MintNftTxConstraints{
 		CreatorAccountIndex: 4,
 		ToAccountIndex:      4,
 		ToAccountNameHash:   common.FromHex("1e0b0d8c4c69d2c061ced93a60fa9f08812dcc9e804efff7f445039d7834f1e53"),
 		NftIndex:            5,
-		NftContentHash: [2]frontend.Variable{common.FromHex(nftContentHash)[:NftContentHashBytesSize],
-			common.FromHex(nftContentHash)[NftContentHashBytesSize:]},
+		NftContentHash:      GetNftContentHashFromBytes(common.FromHex("af6b80f7c6b8d2e5ce1cfa3a58c7c8530a7f75bc4f73569a8dcffbde3efc0753")),
 		CreatorTreasuryRate: 0,
 		GasAccountIndex:     1,
 		GasFeeAssetId:       0,
@@ -73,15 +70,12 @@ func TestCollectPubDataFromMintNft(t *testing.T) {
 	var circuit, witness MintNftCircuit
 	circuit.TxInfo = MintNftTxConstraints{}
 
-	nftContentHash := "0d736736cea2105c1eae36c240a2ebe03e22d2393b4b7edc2fe5a921a5d66db2"
-
 	witness.TxInfo = MintNftTxConstraints{
 		CreatorAccountIndex: 4,
 		ToAccountIndex:      4,
 		ToAccountNameHash:   common.FromHex("1e0b0d8c4c69d2c061ced93a60fa9f08812dcc9e804efff7f445039d7834f1e5"),
 		NftIndex:            5,
-		NftContentHash: [2]frontend.Variable{common.FromHex(nftContentHash)[0:16],
-			common.FromHex(nftContentHash)[16:]},
+		NftContentHash:      GetNftContentHashFromBytes(common.FromHex("0d736736cea2105c1eae36c240a2ebe03e22d2393b4b7edc2fe5a921a5d66db2")),
 		CreatorTreasuryRate: 0,
 		GasAccountIndex:     1,
 		GasFeeAssetId:       0,

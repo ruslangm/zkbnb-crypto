@@ -17,7 +17,9 @@
 
 package types
 
-import "github.com/consensys/gnark/std/hash/poseidon"
+import (
+	"github.com/consensys/gnark/std/hash/poseidon"
+)
 
 type MintNftTx struct {
 	CreatorAccountIndex int64
@@ -69,7 +71,7 @@ func SetMintNftTxWitness(tx *MintNftTx) (witness MintNftTxConstraints) {
 		ToAccountIndex:      tx.ToAccountIndex,
 		ToAccountNameHash:   tx.ToAccountNameHash,
 		NftIndex:            tx.NftIndex,
-		NftContentHash:      [2]Variable{tx.NftContentHash[:NftContentHashBytesSize], tx.NftContentHash[NftContentHashBytesSize:]},
+		NftContentHash:      GetNftContentHashFromBytes(tx.NftContentHash),
 		CreatorTreasuryRate: tx.CreatorTreasuryRate,
 		GasAccountIndex:     tx.GasAccountIndex,
 		GasFeeAssetId:       tx.GasFeeAssetId,

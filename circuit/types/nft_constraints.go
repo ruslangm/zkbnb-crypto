@@ -51,7 +51,7 @@ func SetNftWitness(nft *Nft) (witness NftConstraints, err error) {
 	// set witness
 	witness = NftConstraints{
 		NftIndex:            nft.NftIndex,
-		NftContentHash:      [2]Variable{nft.NftContentHash[:NftContentHashBytesSize], nft.NftContentHash[NftContentHashBytesSize:]},
+		NftContentHash:      GetNftContentHashFromBytes(nft.NftContentHash),
 		CreatorAccountIndex: nft.CreatorAccountIndex,
 		OwnerAccountIndex:   nft.OwnerAccountIndex,
 		CreatorTreasuryRate: nft.CreatorTreasuryRate,

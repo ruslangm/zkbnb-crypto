@@ -365,13 +365,22 @@ func VerifyTransaction(
 	newNftRoot := tx.NftRootBefore
 	api.AssertIsLessOrEqual(tx.NftBefore.NftIndex, LastNftIndex)
 	nftIndexMerkleHelper := NftIndexToMerkleHelper(api, tx.NftBefore.NftIndex)
-	nftNodeHash := poseidon.Poseidon(api,
+
+	isNotIpfsNftContentHash := api.IsZero(api.Sub(tx.NftBefore.NftContentHash[1], types.ZeroInt))
+	nftIpfsNodeHash := poseidon.Poseidon(api,
 		tx.NftBefore.CreatorAccountIndex,
 		tx.NftBefore.OwnerAccountIndex,
 		tx.NftBefore.NftContentHash[0],
 		tx.NftBefore.NftContentHash[1],
 		tx.NftBefore.CreatorTreasuryRate,
 		tx.NftBefore.CollectionId)
+	nftNotIpfsNodeHash := poseidon.Poseidon(api,
+		tx.NftBefore.CreatorAccountIndex,
+		tx.NftBefore.OwnerAccountIndex,
+		tx.NftBefore.NftContentHash[0],
+		tx.NftBefore.CreatorTreasuryRate,
+		tx.NftBefore.CollectionId)
+	nftNodeHash := api.Select(isNotIpfsNftContentHash, nftNotIpfsNodeHash, nftIpfsNodeHash)
 	// verify account merkle proof
 	types.VerifyMerkleProof(
 		api,
@@ -381,13 +390,21 @@ func VerifyTransaction(
 		tx.MerkleProofsNftBefore[:],
 		nftIndexMerkleHelper,
 	)
-	nftNodeHash = poseidon.Poseidon(api,
+
+	nftIpfsNodeHash = poseidon.Poseidon(api,
 		NftAfter.CreatorAccountIndex,
 		NftAfter.OwnerAccountIndex,
 		NftAfter.NftContentHash[0],
 		NftAfter.NftContentHash[1],
 		NftAfter.CreatorTreasuryRate,
 		NftAfter.CollectionId)
+	nftNotIpfsNodeHash = poseidon.Poseidon(api,
+		NftAfter.CreatorAccountIndex,
+		NftAfter.OwnerAccountIndex,
+		NftAfter.NftContentHash[0],
+		NftAfter.CreatorTreasuryRate,
+		NftAfter.CollectionId)
+	nftNodeHash = api.Select(isNotIpfsNftContentHash, nftNotIpfsNodeHash, nftIpfsNodeHash)
 	// update merkle proof
 	newNftRoot = types.UpdateMerkleProof(api, nftNodeHash, tx.MerkleProofsNftBefore[:], nftIndexMerkleHelper)
 	oldRoots[1] = api.Select(isEmptyTx, oldRoots[1], newNftRoot)

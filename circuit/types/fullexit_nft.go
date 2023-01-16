@@ -61,7 +61,7 @@ func SetFullExitNftTxWitness(tx *FullExitNftTx) (witness FullExitNftTxConstraint
 		CreatorTreasuryRate:    tx.CreatorTreasuryRate,
 		NftIndex:               tx.NftIndex,
 		CollectionId:           tx.CollectionId,
-		NftContentHash:         [2]Variable{tx.NftContentHash[:NftContentHashBytesSize], tx.NftContentHash[NftContentHashBytesSize:]},
+		NftContentHash:         GetNftContentHashFromBytes(tx.NftContentHash),
 	}
 	return witness
 }

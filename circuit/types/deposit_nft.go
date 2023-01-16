@@ -17,8 +17,6 @@
 
 package types
 
-import "github.com/consensys/gnark/frontend"
-
 type DepositNftTx struct {
 	AccountIndex        int64
 	NftIndex            int64
@@ -56,7 +54,7 @@ func SetDepositNftTxWitness(tx *DepositNftTx) (witness DepositNftTxConstraints) 
 		AccountIndex:        tx.AccountIndex,
 		AccountNameHash:     tx.AccountNameHash,
 		NftIndex:            tx.NftIndex,
-		NftContentHash:      [2]frontend.Variable{tx.NftContentHash[:NftContentHashBytesSize], tx.NftContentHash[NftContentHashBytesSize:]},
+		NftContentHash:      GetNftContentHashFromBytes(tx.NftContentHash),
 		CreatorAccountIndex: tx.CreatorAccountIndex,
 		CreatorTreasuryRate: tx.CreatorTreasuryRate,
 		CollectionId:        tx.CollectionId,

@@ -70,7 +70,7 @@ func SetWithdrawNftTxWitness(tx *WithdrawNftTx) (witness WithdrawNftTxConstraint
 		CreatorAccountNameHash: tx.CreatorAccountNameHash,
 		CreatorTreasuryRate:    tx.CreatorTreasuryRate,
 		NftIndex:               tx.NftIndex,
-		NftContentHash:         [2]Variable{tx.NftContentHash[:NftContentHashBytesSize], tx.NftContentHash[NftContentHashBytesSize:]},
+		NftContentHash:         GetNftContentHashFromBytes(tx.NftContentHash),
 		ToAddress:              tx.ToAddress,
 		GasAccountIndex:        tx.GasAccountIndex,
 		GasFeeAssetId:          tx.GasFeeAssetId,
