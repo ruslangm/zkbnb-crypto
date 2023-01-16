@@ -368,7 +368,7 @@ func VerifyTransaction(
 	nftNodeHash := poseidon.Poseidon(api,
 		tx.NftBefore.CreatorAccountIndex,
 		tx.NftBefore.OwnerAccountIndex,
-		tx.NftBefore.NftContentHash,
+		tx.NftBefore.NftContentHash[:],
 		tx.NftBefore.CreatorTreasuryRate,
 		tx.NftBefore.CollectionId)
 	// verify account merkle proof
@@ -383,7 +383,7 @@ func VerifyTransaction(
 	nftNodeHash = poseidon.Poseidon(api,
 		NftAfter.CreatorAccountIndex,
 		NftAfter.OwnerAccountIndex,
-		NftAfter.NftContentHash,
+		NftAfter.NftContentHash[:],
 		NftAfter.CreatorTreasuryRate,
 		NftAfter.CollectionId)
 	// update merkle proof

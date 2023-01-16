@@ -39,7 +39,7 @@ type WithdrawNftTxConstraints struct {
 	CreatorAccountNameHash Variable
 	CreatorTreasuryRate    Variable
 	NftIndex               Variable
-	NftContentHash         Variable
+	NftContentHash         [2]Variable
 	ToAddress              Variable
 	GasAccountIndex        Variable
 	GasFeeAssetId          Variable
@@ -54,7 +54,7 @@ func EmptyWithdrawNftTxWitness() (witness WithdrawNftTxConstraints) {
 		CreatorAccountNameHash: ZeroInt,
 		CreatorTreasuryRate:    ZeroInt,
 		NftIndex:               ZeroInt,
-		NftContentHash:         ZeroInt,
+		NftContentHash:         [2]Variable{ZeroInt, ZeroInt},
 		ToAddress:              ZeroInt,
 		GasAccountIndex:        ZeroInt,
 		GasFeeAssetId:          ZeroInt,
@@ -70,7 +70,7 @@ func SetWithdrawNftTxWitness(tx *WithdrawNftTx) (witness WithdrawNftTxConstraint
 		CreatorAccountNameHash: tx.CreatorAccountNameHash,
 		CreatorTreasuryRate:    tx.CreatorTreasuryRate,
 		NftIndex:               tx.NftIndex,
-		NftContentHash:         tx.NftContentHash,
+		NftContentHash:         [2]Variable{tx.NftContentHash[:NftContentHashBytesSize], tx.NftContentHash[NftContentHashBytesSize:]},
 		ToAddress:              tx.ToAddress,
 		GasAccountIndex:        tx.GasAccountIndex,
 		GasFeeAssetId:          tx.GasFeeAssetId,
