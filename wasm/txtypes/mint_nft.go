@@ -105,6 +105,16 @@ type MintNftTxInfo struct {
 	ExpiredAt           int64
 	Nonce               int64
 	Sig                 []byte
+	MetaData            *NftMetaData
+	IpnsName            string
+	IpnsId              string
+}
+
+type NftMetaData struct {
+	Image       string
+	Name        string
+	Description string
+	Attributes  string
 }
 
 func (txInfo *MintNftTxInfo) Validate() error {
@@ -233,8 +243,7 @@ func (txInfo *MintNftTxInfo) Hash(hFunc hash.Hash) (msgHash []byte, err error) {
 	}
 	msgHash = Poseidon(ChainId, TxTypeMintNft, txInfo.CreatorAccountIndex, txInfo.Nonce, txInfo.ExpiredAt,
 		txInfo.GasFeeAssetId, packedFee, txInfo.ToAccountIndex, txInfo.CreatorTreasuryRate, txInfo.NftCollectionId,
-		ffmath.Mod(new(big.Int).SetBytes(common.FromHex(txInfo.ToAccountNameHash)), curve.Modulus),
-		ffmath.Mod(new(big.Int).SetBytes(common.FromHex(txInfo.NftContentHash)), curve.Modulus))
+		ffmath.Mod(new(big.Int).SetBytes(common.FromHex(txInfo.ToAccountNameHash)), curve.Modulus))
 	return msgHash, nil
 }
 
