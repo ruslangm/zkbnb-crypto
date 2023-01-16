@@ -104,7 +104,7 @@ func VerifyMintNftTx(
 	// account name hash
 	IsVariableEqual(api, flag, tx.ToAccountNameHash, accountsBefore[toAccount].AccountNameHash)
 	// content hash
-	isZero := api.IsZero(tx.NftContentHash)
+	isZero := api.Or(api.IsZero(tx.NftContentHash[0]), api.IsZero(tx.NftContentHash[1]))
 	IsVariableEqual(api, flag, isZero, 0)
 	// gas asset id
 	IsVariableEqual(api, flag, tx.GasFeeAssetId, accountsBefore[fromAccount].AssetsInfo[0].AssetId)

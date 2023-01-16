@@ -32,7 +32,8 @@ type NftConstraints struct {
 }
 
 func CheckEmptyNftNode(api API, flag Variable, nft NftConstraints) {
-	IsVariableEqual(api, flag, nft.NftContentHash, ZeroInt)
+	IsVariableEqual(api, flag, nft.NftContentHash[0], ZeroInt)
+	IsVariableEqual(api, flag, nft.NftContentHash[1], ZeroInt)
 	IsVariableEqual(api, flag, nft.CreatorAccountIndex, ZeroInt)
 	IsVariableEqual(api, flag, nft.OwnerAccountIndex, ZeroInt)
 	IsVariableEqual(api, flag, nft.CreatorTreasuryRate, ZeroInt)
