@@ -140,9 +140,9 @@ func (txInfo *MintNftTxInfo) Validate() error {
 	}
 
 	// NftContentHash
-	if !IsValidHash(txInfo.NftContentHash) {
-		return ErrNftContentHashInvalid
-	}
+	//if !IsValidHash(txInfo.NftContentHash) {
+	//	return ErrNftContentHashInvalid
+	//}
 
 	// NftCollectionId
 	if txInfo.NftCollectionId < minCollectionId {

@@ -367,17 +367,17 @@ func VerifyTransaction(
 	nftIndexMerkleHelper := NftIndexToMerkleHelper(api, tx.NftBefore.NftIndex)
 
 	isNotIpfsNftContentHash := api.IsZero(api.Sub(tx.NftBefore.NftContentHash[1], types.ZeroInt))
+	nftNotIpfsNodeHash := poseidon.Poseidon(api,
+		tx.NftBefore.CreatorAccountIndex,
+		tx.NftBefore.OwnerAccountIndex,
+		tx.NftBefore.NftContentHash[0],
+		tx.NftBefore.CreatorTreasuryRate,
+		tx.NftBefore.CollectionId)
 	nftIpfsNodeHash := poseidon.Poseidon(api,
 		tx.NftBefore.CreatorAccountIndex,
 		tx.NftBefore.OwnerAccountIndex,
 		tx.NftBefore.NftContentHash[0],
 		tx.NftBefore.NftContentHash[1],
-		tx.NftBefore.CreatorTreasuryRate,
-		tx.NftBefore.CollectionId)
-	nftNotIpfsNodeHash := poseidon.Poseidon(api,
-		tx.NftBefore.CreatorAccountIndex,
-		tx.NftBefore.OwnerAccountIndex,
-		tx.NftBefore.NftContentHash[0],
 		tx.NftBefore.CreatorTreasuryRate,
 		tx.NftBefore.CollectionId)
 	nftNodeHash := api.Select(isNotIpfsNftContentHash, nftNotIpfsNodeHash, nftIpfsNodeHash)
@@ -391,17 +391,18 @@ func VerifyTransaction(
 		nftIndexMerkleHelper,
 	)
 
+	isNotIpfsNftContentHash = api.IsZero(api.Sub(NftAfter.NftContentHash[1], types.ZeroInt))
+	nftNotIpfsNodeHash = poseidon.Poseidon(api,
+		NftAfter.CreatorAccountIndex,
+		NftAfter.OwnerAccountIndex,
+		NftAfter.NftContentHash[0],
+		NftAfter.CreatorTreasuryRate,
+		NftAfter.CollectionId)
 	nftIpfsNodeHash = poseidon.Poseidon(api,
 		NftAfter.CreatorAccountIndex,
 		NftAfter.OwnerAccountIndex,
 		NftAfter.NftContentHash[0],
 		NftAfter.NftContentHash[1],
-		NftAfter.CreatorTreasuryRate,
-		NftAfter.CollectionId)
-	nftNotIpfsNodeHash = poseidon.Poseidon(api,
-		NftAfter.CreatorAccountIndex,
-		NftAfter.OwnerAccountIndex,
-		NftAfter.NftContentHash[0],
 		NftAfter.CreatorTreasuryRate,
 		NftAfter.CollectionId)
 	nftNodeHash = api.Select(isNotIpfsNftContentHash, nftNotIpfsNodeHash, nftIpfsNodeHash)
