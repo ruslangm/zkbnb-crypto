@@ -13,6 +13,7 @@ type RegisterZnsTxInfo struct {
 	AccountIndex    int64
 	AccountName     string
 	AccountNameHash []byte
+	L1Address       *big.Int
 	PubKey          string
 }
 

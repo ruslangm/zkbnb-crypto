@@ -20,20 +20,20 @@ package solidity
 import (
 	"flag"
 	"fmt"
-	"os"
-	"strconv"
-	"strings"
-	"testing"
-
 	"github.com/consensys/gnark-crypto/ecc"
 	"github.com/consensys/gnark/backend/groth16"
 	"github.com/consensys/gnark/frontend"
 	"github.com/consensys/gnark/frontend/cs/r1cs"
+	"os"
+	"strconv"
+	"strings"
+	"testing"
+	"time"
 
 	"github.com/bnb-chain/zkbnb-crypto/circuit"
 )
 
-var optionalBlockSizes = flag.String("blocksizes", "1,10", "block size that will be used for proof generation and verification")
+var optionalBlockSizes = flag.String("blocksizes", "1,10,16", "block size that will be used for proof generation and verification")
 
 func TestCompileCircuit(t *testing.T) {
 	differentBlockSizes := optionalBlockSizesInt()
@@ -62,11 +62,12 @@ func TestExportSol(t *testing.T) {
 }
 
 func TestExportSolSmall(t *testing.T) {
-	differentBlockSizes := []int{1}
+	differentBlockSizes := []int{32}
 	exportSol(differentBlockSizes)
 }
 
 func exportSol(differentBlockSizes []int) {
+	start := time.Now()
 	gasAssetIds := []int64{0, 1}
 	gasAccountIndex := int64(1)
 	sessionName := "zkbnb"
@@ -109,6 +110,7 @@ func exportSol(differentBlockSizes []int) {
 			}
 		}
 	}
+	fmt.Printf("Time passed: %v\n", time.Since(start))
 }
 
 func optionalBlockSizesInt() []int {
