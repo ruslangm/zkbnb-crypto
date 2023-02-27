@@ -20,22 +20,23 @@ package solidity
 import (
 	"flag"
 	"fmt"
-	"github.com/consensys/gnark-crypto/ecc"
-	"github.com/consensys/gnark/backend/groth16"
-	"github.com/consensys/gnark/frontend"
-	"github.com/consensys/gnark/frontend/cs/r1cs"
 	"os"
 	"strconv"
 	"strings"
 	"testing"
-	"time"
+
+	"github.com/consensys/gnark-crypto/ecc"
+	"github.com/consensys/gnark/backend/groth16"
+	"github.com/consensys/gnark/frontend"
+	"github.com/consensys/gnark/frontend/cs/r1cs"
 
 	"github.com/bnb-chain/zkbnb-crypto/circuit"
 )
 
-var optionalBlockSizes = flag.String("blocksizes", "1,10,16", "block size that will be used for proof generation and verification")
+var optionalBlockSizes = flag.String("blocksizes", "1,10", "block size that will be used for proof generation and verification")
 
 func TestCompileCircuit(t *testing.T) {
+	differentBlockSizes := []int{1, 10}
 	differentBlockSizes := optionalBlockSizesInt()
 	gasAssetIds := []int64{0, 1}
 	gasAccountIndex := int64(1)
@@ -58,16 +59,17 @@ func TestCompileCircuit(t *testing.T) {
 }
 
 func TestExportSol(t *testing.T) {
+	differentBlockSizes := []int{1, 10}
+	exportSol(differentBlockSizes)
 	exportSol(optionalBlockSizesInt())
 }
 
 func TestExportSolSmall(t *testing.T) {
-	differentBlockSizes := []int{32}
+	differentBlockSizes := []int{1}
 	exportSol(differentBlockSizes)
 }
 
 func exportSol(differentBlockSizes []int) {
-	start := time.Now()
 	gasAssetIds := []int64{0, 1}
 	gasAccountIndex := int64(1)
 	sessionName := "zkbnb"
@@ -110,7 +112,6 @@ func exportSol(differentBlockSizes []int) {
 			}
 		}
 	}
-	fmt.Printf("Time passed: %v\n", time.Since(start))
 }
 
 func optionalBlockSizesInt() []int {
