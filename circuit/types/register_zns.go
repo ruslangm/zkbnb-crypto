@@ -19,14 +19,12 @@ package types
 
 import (
 	"github.com/consensys/gnark-crypto/ecc/bn254/twistededwards/eddsa"
-	"math/big"
 )
 
 type RegisterZnsTx struct {
 	AccountIndex    int64
 	AccountName     []byte
 	AccountNameHash []byte
-	L1Address       *big.Int
 	PubKey          *eddsa.PublicKey
 }
 
@@ -34,7 +32,6 @@ type RegisterZnsTxConstraints struct {
 	AccountIndex    Variable
 	AccountName     Variable
 	AccountNameHash Variable
-	L1Address       Variable
 	PubKey          PublicKeyConstraints
 }
 
@@ -51,7 +48,6 @@ func SetRegisterZnsTxWitness(tx *RegisterZnsTx) (witness RegisterZnsTxConstraint
 	witness = RegisterZnsTxConstraints{
 		AccountIndex:    tx.AccountIndex,
 		AccountName:     tx.AccountName,
-		L1Address:       tx.L1Address,
 		AccountNameHash: tx.AccountNameHash,
 		PubKey:          SetPubKeyWitness(tx.PubKey),
 	}
