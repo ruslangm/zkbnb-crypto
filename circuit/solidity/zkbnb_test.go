@@ -42,7 +42,7 @@ var (
 	optionalBlockSizes = flag.String("blocksizes", "1,10", "block size that will be used for proof generation and verification")
 	batchSize          = flag.Int("batchsize", 100000, "number of constraints in r1cs file")
 	bN                 = flag.Int("bN", 0, "bN is the bits of N Hashes, if we got 1024 hashes to prove, the bN should be set to 10")
-	generateKeys       = flag.Bool("generate_keys", true, "if false, the pk and vk will not be generated and should be used from mpc setup")
+	generateKeys       = flag.Bool("create_pkvk", true, "if false, the pk and vk will not be created and should be used from mpc setup ceremony")
 )
 
 func TestCompileCircuit(t *testing.T) {
