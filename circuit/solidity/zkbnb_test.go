@@ -42,7 +42,7 @@ var (
 	optionalBlockSizes = flag.String("blocksizes", "1,10", "block size that will be used for proof generation and verification")
 	batchSize          = flag.Int("batchsize", 100000, "number of constraints in r1cs file")
 	bN                 = flag.Int("bN", 0, "bN is the bits of N Hashes, if we got 1024 hashes to prove, the bN should be set to 10")
-	generateKeys       = flag.Bool("create_pkvk", true, "if false, the pk and vk will not be created and should be used from mpc setup ceremony")
+	createKeys         = flag.Bool("create_pkvk", true, "if false, the pk and vk will not be created and should be used from mpc setup ceremony")
 )
 
 func TestCompileCircuit(t *testing.T) {
@@ -134,7 +134,7 @@ func exportSol(t *testing.T, differentBlockSizes []int) {
 		}
 		f.Close()
 
-		if *generateKeys {
+		if *createKeys {
 			err = groth16.SetupDumpKeys(oR1csFull, sessionNameForBlock)
 			if err != nil {
 				panic(err)
